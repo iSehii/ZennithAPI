@@ -16,7 +16,7 @@ exports.registro = async (req, res) => {
         const newUser = new User({ username, password });
         await newUser.save();
 
-        return res.status(201).json(newUser);
+        return res.status(201).json({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

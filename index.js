@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const routes = require('./routes');
 const port = process.env.PORT || 3005;
 const app = express();
@@ -19,6 +20,8 @@ mongoose.connect('mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.ne
 });
 
 // Middlewares
+app.use(bodyParser.json());
+
 app.use(express.json());
 
 app.listen(port, () => {
