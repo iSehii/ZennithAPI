@@ -2,6 +2,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Session = require('../models/session');
+
+const express = require('express');
+const router = express.Router();
+router.use(express.json());
+
 exports.registro = async (req, res) => {
     try {
         const { username, password } = req.body;
