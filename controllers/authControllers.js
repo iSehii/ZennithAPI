@@ -1,7 +1,8 @@
+// controllers/authController.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-
-const registro = async (req, res) => {
+const Session = require('../models/session');
+exports.registro = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -21,7 +22,7 @@ const registro = async (req, res) => {
     }
 };
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -31,9 +32,8 @@ const login = async (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Verificar la contraseña
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) {
+        // Verificar la contraseña (en este caso, no se utiliza bcrypt)
+        if (password !== user.password) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
 
@@ -48,8 +48,4 @@ const login = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
-};
-
-module.exports = {
-    login, registro
 };
