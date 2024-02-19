@@ -22,8 +22,6 @@ mongoose.connect('mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.ne
 // Middlewares
 app.use(bodyParser.json());
 
-app.use(express.json());
-
 app.listen(port, () => {
   console.log(`Ejecutando en: http://localhost:${port}`);
 });
