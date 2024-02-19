@@ -1,1 +1,1 @@
-# ZennithAPI
+# Zennit
