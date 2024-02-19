@@ -14,13 +14,6 @@ mongoose.connect('mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.ne
   useUnifiedTopology: true
 });
 
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'Error de conexión a MongoDB:'));
-db.once('open', () => {
-  console.log('Conexión exitosa a MongoDB.');
-});
-
 app.listen(port, () => {
   console.log(`Ejecutando en: http://localhost:${port}`);
 });
