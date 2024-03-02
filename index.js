@@ -9,8 +9,8 @@ const app = express();
 app.use(cors());
 app.use('/api', require('./routes/index'))
 
-// Conexión a la base de datos MongoDB
-mongoose.connect('mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.net/?retryWrites=true&w=majority', {
+//mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.net/?retryWrites=true&w=majority
+mongoose.connect('mongodb+srv://zenit:orNjLnazwg3mE4Yp@zennit.p35k7as.mongodb.net/Zennit?retryWrites=true&w=majority&appName=Zennit', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
