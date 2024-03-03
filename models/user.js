@@ -7,6 +7,7 @@ const userSchema = new Schema({
     nombre: {type: String, required: true},
     apellidos: {type: String, required: true},
     fn: {type: Date, required: true},
+    genero: {type: String, required: true}
 });
 
 const User = model('User', userSchema);
