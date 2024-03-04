@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         const newSession = new Session({ userId: user._id, token });
         await newSession.save();
 
-        return res.status(200).json({ token });
+        return res.status(200).json({ message: "Inicio exitoso" });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
