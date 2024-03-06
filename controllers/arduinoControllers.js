@@ -8,6 +8,7 @@ router.use(express.json());
 exports.arduino = async (req, res) => {
     try {
         const { message } = req.body;
+        console.log('Se entro en la URL por POST, dato recibido: " '+message+' "');
         const newArduino = new arduino({ message });
         await newArduino.save();
 
