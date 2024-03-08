@@ -10,21 +10,18 @@ router.use(express.json());
 exports.registro = async (req, res) => {
     try {
         const { correo, password, nombre, apellidos, fn, genero  } = req.body;
-
-        // Verificar si el usuario ya existe
         const existingUser = await User.findOne({ correo });
         if (existingUser) {
             return res.status(400).json({ message: 'El usuario ya existe' });
         }
-        // Crear un nuevo usuario
-        if (correo != "" && password != "" && nombre != "" && apellidos != "" && fn != "" && genero != 'Seleccionar') {
+        if (correo != "" && password != "" && nombre != "" && apellidos != "" && fn != "") {
             const newUser = new User({ correo, password, nombre, apellidos, fn, genero });
             await newUser.save();
         } else {
             return res.status(500).json({ message: 'No puedes dejar vacíos los campos' });
         }
 
-        return res.status(201).json({ message: 'Usuario registrado exitosamente con: '+ correo+ " y " + password });
+        return res.status(201).json({logueado: "1", message: "Registrado exitosamente", correo: correo});
     } catch (error) {
         const { correo, password, } = req.body;
         return res.status(500).json({ message: error.message + correo + " y " + password });
@@ -49,7 +46,7 @@ exports.login = async (req, res) => {
         const newSession = new Session({ userId: user._id, token });
         await newSession.save();
 
-        return res.status(200).json({ message: "Inicio exitoso" });
+        return res.status(200).json({logueado: "1", correo: correo});
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
