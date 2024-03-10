@@ -11,7 +11,7 @@ exports.arduino = async (req, res) => {
         //const newArduino = new arduino({ prueba });
         //await newArduino.save();
 
-        return res.status(200).json({ prueba: "Hola, desde la base ;)" });
+        return res.status(200).json({ prueba: "Rene hola ;)" });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
