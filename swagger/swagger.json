@@ -1,0 +1,165 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Zennit - API",
+        "description": "API del proyecto Zennit - servidor Express",
+        "version": "1.0"
+    },
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "CRUD de usuarios con APIs"
+        }
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "host": "localhost:3005",
+    "basePath": "/api",
+    "urls.primaryName": "Usuarios",
+    "paths": {
+        "/auth/registro": {
+            "post": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Crear un nuevo usuario",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Usuario a registrar",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/registro"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario creado correctamente"
+                    }
+                }
+            }
+        },
+        "/users/{correo}": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Consulta un usuario con su Correo",
+                "parameters": [
+                    {
+                        "name": "correo",
+                        "in": "path",
+                        "description": "Correo del usuario a consultar",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario encontrado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Actualiza un usuario con su Correo",
+                "parameters": [
+                    {
+                        "name": "correo",
+                        "in": "path",
+                        "description": "Correo del usuario a actualizar",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Usuario actualizado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/registro"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Eliminar un usuario con su Correo",
+                "parameters": [
+                    {
+                        "name": "correo",
+                        "in": "path",
+                        "description": "Correo del usuario a eliminar",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "registro": {
+            "type": "object",
+            "properties": {
+                "correo": {
+                    "type": "string",
+                    "description": "Correo electrónico"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Contraseña"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos"
+                },
+                "fn": {
+                    "type": "string",
+                    "description": "Fecha de nacimiento"
+                },
+                "genero": {
+                    "type": "string",
+                    "description": "Género"
+                }
+            },
+            "required": [
+                "correo",
+                "password",
+                "nombre",
+                "apellidos",
+                "fn",
+                "genero"
+            ]
+        }
+    }
+}

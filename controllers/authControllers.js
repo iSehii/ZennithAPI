@@ -1,12 +1,10 @@
 // controllers/authController.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
 const Session = require('../models/session');
 
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
-
 exports.registro = async (req, res) => {
     try {
         const { correo, password, nombre, apellidos, fn, genero  } = req.body;
@@ -15,7 +13,9 @@ exports.registro = async (req, res) => {
             return res.status(400).json({ message: 'El usuario ya existe' });
         }
         if (correo != "" && password != "" && nombre != "" && apellidos != "" && fn != "") {
-            const newUser = new User({ correo, password, nombre, apellidos, fn, genero });
+            const foto = "foto.png";
+            const rol = 3;
+            const newUser = new User({ correo, password, nombre, apellidos, fn, genero, rol, foto });
             await newUser.save();
         } else {
             return res.status(500).json({ message: 'No puedes dejar vacíos los campos' });
@@ -24,7 +24,7 @@ exports.registro = async (req, res) => {
         return res.status(201).json({logueado: "1", message: "Registrado exitosamente", correo: correo});
     } catch (error) {
         const { correo, password, } = req.body;
-        return res.status(500).json({ message: error.message + correo + " y " + password });
+        return res.status(500).json({ message: error.message });
     }
 };
 
@@ -42,7 +42,6 @@ exports.login = async (req, res) => {
         // Crear token de sesión
         const token = jwt.sign({ userId: user._id }, 'tu_secreto_secreto');
 
-        // Guardar el token de sesión en la base de datos
         const newSession = new Session({ userId: user._id, token });
         await newSession.save();
 

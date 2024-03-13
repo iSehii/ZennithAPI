@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { index } = require('../controllers/userControllers');
+const { getUserByCorreo, deleteUserByCorreo, updateUserByCorreo } = require('../controllers/userControllers');
 
-router.get('/', index);
+router.get('/:correo', getUserByCorreo);
+router.delete('/:correo', deleteUserByCorreo);
+router.put('/:correo', updateUserByCorreo);
 
 module.exports = router;

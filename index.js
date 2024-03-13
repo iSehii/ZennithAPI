@@ -10,8 +10,8 @@ app.use(cors());
 app.use('/api', require('./routes/index'))
 
 //mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.net/?retryWrites=true&w=majority
-mongoose.connect('mongodb+srv://zenit:orNjLnazwg3mE4Yp@zennit.p35k7as.mongodb.net/Zennit?retryWrites=true&w=majority&appName=Zennit', {
-//mongoose.connect('mongodb://localhost:27017', {  
+//mongoose.connect('mongodb+srv://zenit:orNjLnazwg3mE4Yp@zennit.p35k7as.mongodb.net/Zennit?retryWrites=true&w=majority&appName=Zennit', {
+mongoose.connect('mongodb://localhost:27017', {  
 useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -20,9 +20,7 @@ useNewUrlParser: true,
   console.error('Error de conexión a MongoDB:', error);
 });
 
-// Middlewares
 app.use(bodyParser.json());
-
 app.use(express.json());
 
 app.listen(port, () => {
