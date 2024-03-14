@@ -9,6 +9,10 @@
         {
             "name": "Usuarios",
             "description": "CRUD de usuarios con APIs"
+        },
+        {
+            "name": "Bancos",
+            "description": "CRUD de bancos de energía con APIs"
         }
     ],
     "produces": [
@@ -121,6 +125,110 @@
                     }
                 }
             }
+        },
+        "/bancos/registro": {
+            "post": {
+                "tags": [
+                    "Bancos"
+                ],
+                "summary": "Registra un nuevo banco",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Banco a registrar",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/bancos"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Banco creado correctamente"
+                    }
+                }
+            }
+        },
+        "/bancos/{nombre}": {
+            "get": {
+                "tags": [
+                    "Bancos"
+                ],
+                "summary": "Consulta un banco con su nombre.",
+                "parameters": [
+                    {
+                        "name": "nombre",
+                        "in": "path",
+                        "description": "Nombrer del banco a consultar",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario encontrado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Bancos"
+                ],
+                "summary": "Actualiza un banco con su nombrer.",
+                "parameters": [
+                    {
+                        "name": "nombre",
+                        "in": "path",
+                        "description": "Nombrer del banco a actualizar",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Banco actualizado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/bancos"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Banco actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Banco no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Bancos"
+                ],
+                "summary": "Eliminar un banco con su nombre",
+                "parameters": [
+                    {
+                        "name": "correo",
+                        "in": "path",
+                        "description": "Nombre del banco a eliminar",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Banco eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Banco no encontrado"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -159,6 +267,37 @@
                 "apellidos",
                 "fn",
                 "genero"
+            ]
+        },
+        "bancos": {
+            "type": "object",
+            "properties": {
+                "nombre": {
+                    "type": "string",
+                    "description": "Nomber del banco"
+                },
+                "ubicacion": {
+                    "type": "string",
+                    "description": "Ubicaciòn del banco"
+                },
+                "bateria": {
+                    "type": "integer",
+                    "description": "Nivel de batería"
+                },
+                "disponible": {
+                    "type": "boolean",
+                    "description": "Disponibilidad"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "Token de uso"
+                }
+            },
+            "required": [
+                "nombre",
+                "ubicacion",
+                "bateria",
+                "disponible"
             ]
         }
     }
