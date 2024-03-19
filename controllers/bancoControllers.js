@@ -1,4 +1,5 @@
 const Banco = require('../models/bancos');
+const User = require('../models/user');
 
 exports.crearBanco = async (req, res) => {
     try {
@@ -7,12 +8,9 @@ exports.crearBanco = async (req, res) => {
         if (bancoExistente) {
             return res.status(400).json({ message: 'El banco ya existe' });
         }
-        if (nombre != "" && ubicacion != "" && bateria != "" && disponible != null) {
+
             const nuevoBanco = new Banco({ nombre, ubicacion, bateria, disponible });
             await nuevoBanco.save();
-        } else {
-            return res.status(500).json({ message: 'No puedes dejar vacíos los campos' });
-        }
         return res.status(201).json({ message: "Banco creado exitosamente" });
     } catch (error) {
         console.log(error.message);
@@ -31,15 +29,86 @@ exports.obtenerBanco = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
-
-exports.actualizarBanco = async (req, res) => {
+exports.usarBanco = async (req,res) => {
     try {
         const bancos = await Banco.findOneAndUpdate({ nombre: req.params.nombre }, req.body, { new: true });
         if (!bancos) {
             return res.status(404).json({ message: 'Banco no encontrado' });
         }
+        return res.status(200).json({ message: 'Banco utilizado correctamente' });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+exports.DejarBanco = async (req, res) => {
+    try {
+        const bancoss = await Banco.findOne({ nombre: req.params.nombre });
+        if (!bancoss) {
+            return res.status(404).json({ message: 'Banco no encontrado' });
+        }
+        if (bancoss.token == req.body.token) {
+
+            const bancos = await Banco.findOneAndUpdate({ nombre: req.params.nombre }, req.body, { new: true });
+            if (!bancos) {
+                return res.status(404).json({ message: 'Banco no encontrado' });
+            }
+            var token = Math.random().toString(36).substr(2, 5);
+            const tokens = await Banco.findOneAndUpdate(
+                { nombre: req.params.nombre },
+                { $set: { token: token } }, 
+                { new: true, useFindAndModify: false } 
+                );
+                
+                return res.status(200).json({ message: 'Banco dejado correctamente' });
+            } else {
+                return res.status(200).json({message: 'Token incorrecto'});
+            } 
+            } catch (error) {
+                return res.status(500).json({ message: error.message });
+            }
+}
+
+var seUsaPrimeroCount = 0;
+var disponibleCount = 0;
+exports.actualizarBanco = async (req, res) => {
+    try {
+        console.log(req.body);
+        var nombre;
+        if (req.body.arduino == true) {
+            const bancos = await Banco.findOneAndUpdate({ nombre: req.params.nombre }, req.body, { new: true });
+            const Usuario = await User.findOne({ correo: bancos.usuario });
+            if (!bancos) {
+                return res.status(404).json({ message: 'Banco no encontrado' });
+            }
+            if (bancos.usuario != null) {
+                var seUsaToken = "si";
+                nombre = Usuario.nombre;
+                if (seUsaPrimeroCount == 0) {
+                    var seUsaPrimero = false;
+                    seUsaPrimeroCount = 1;
+                } else {
+                    var seUsaPrimero = true;
+                }
+                return res.status(200).json({ message: 'Banco actualizado correctamente', token: bancos.token, seUsaPrimero: seUsaPrimero, bateria: req.body.bateria, nombre: Usuario.nombre, seUsaToken: seUsaToken });
+            } else {
+                if (disponibleCount == 0) {
+                    var disponible = false;
+                    disponibleCount = 1;
+                } else {
+                    var disponible = true;
+                }
+                var seUsaToken = "no";
+                seUsaPrimeroCount = 0;
+                return res.status(200).json({bateria: req.body.bateria, token: bancos.token, seUsaToken: seUsaToken, disponible});
+            }
+            console.log(Usuario);
+        }
+        if (!bancos) {
+            return res.status(404).json({ message: 'Banco no encontrado' });
+        }
         return res.status(200).json({ message: 'Banco actualizado correctamente' });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ message: error.message });
     }
 };

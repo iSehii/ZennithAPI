@@ -5,6 +5,8 @@ const Users = require('../models/user');
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
+const foto = "foto.png";
+const rol = 3;
 exports.registro = async (req, res) => {
     try {
         const { correo, password, nombre, apellidos, fn, genero  } = req.body;
@@ -13,15 +15,13 @@ exports.registro = async (req, res) => {
             return res.status(400).json({ message: 'El usuario ya existe' });
         }
         if (correo != "" && password != "" && nombre != "" && apellidos != "" && fn != "") {
-            const foto = "foto.png";
-            const rol = 3;
             const newUser = new Users({ correo, password, nombre, apellidos, fn, genero, rol, foto });
             await newUser.save();
         } else {
             return res.status(500).json({ message: 'No puedes dejar vacíos los campos' });
         }
 
-        return res.status(201).json({logueado: "1", message: "Registrado exitosamente", correo: correo});
+        return res.status(201).json({logueado: "1", message: "Registrado exitosamente", correo: correo, nombre: nombre, apellidos: apellidos, fn: fn, rol: rol, foto: foto});
     } catch (error) {
         const { correo, password, } = req.body;
         return res.status(500).json({ message: error.message });
@@ -35,17 +35,22 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        if (password !== users.password) {
+        if (password !== user.password) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
 
-        // Crear token de sesión
-        const token = jwt.sign({ userId: users._id }, 'tu_secreto_secreto');
+        const nombre = user.nombre;
+        const apellidos = user.apellidos;
+        const fn = user.fn;
+        const rol = user.rol;
+        const foto = user.foto;
 
-        const newSession = new Session({ userId: users._id, token });
+        const token = jwt.sign({ userId: user._id }, 'tu_secreto_secreto');
+
+        const newSession = new Session({ userId: user._id, token });
         await newSession.save();
 
-        return res.status(200).json({logueado: "1", correo: correo});
+        return res.status(200).json({ logueado: "1", correo: correo, nombre: nombre, apellidos: apellidos, fn: fn, rol: rol, foto: foto });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
