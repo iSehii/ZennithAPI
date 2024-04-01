@@ -11,8 +11,8 @@ app.use(cors());
 app.use('/api', require('./routes/index'))
 app.use(morgan('dev'));
 //mongodb+srv://Zennith:cVPt5FkBXKt9FXA6@utvt.fuicefd.mongodb.net/?retryWrites=true&w=majority
-//mongoose.connect('mongodb+srv://zenit:orNjLnazwg3mE4Yp@zennit.p35k7as.mongodb.net/Final?retryWrites=true&w=majority&appName=Zennit', {
-mongoose.connect('mongodb://localhost:27017/prueba2', {  
+mongoose.connect('mongodb+srv://zenit:orNjLnazwg3mE4Yp@zennit.p35k7as.mongodb.net/Final?retryWrites=true&w=majority&appName=Final', {
+//mongoose.connect('mongodb://localhost:27017/prueba2', {  
 useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
