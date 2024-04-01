@@ -42,6 +42,7 @@ exports.login = async (req, res) => {
         const nombre = user.nombre;
         const apellidos = user.apellidos;
         const fn = user.fn;
+        const genero = user.genero
         const rol = user.rol;
         const foto = user.foto;
 
@@ -50,7 +51,7 @@ exports.login = async (req, res) => {
         const newSession = new Session({ userId: user._id, token });
         await newSession.save();
 
-        return res.status(200).json({ logueado: "1", correo: correo, nombre: nombre, apellidos: apellidos, fn: fn, rol: rol, foto: foto });
+        return res.status(200).json({ logueado: "1", genero: genero, correo: correo, nombre: nombre, apellidos: apellidos, fn: fn, rol: rol, foto: foto });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
